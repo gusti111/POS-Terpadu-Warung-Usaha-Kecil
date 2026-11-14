@@ -1,0 +1,13 @@
+{
+  "name": "POS Terpadu",
+  "short_name": "POS Terpadu",
+  "description": "Sistem Point of Sale untuk warung dan usaha kecil.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#17243a",
+  "lang": "id",
+  "icons": [
+    { "src": "./assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

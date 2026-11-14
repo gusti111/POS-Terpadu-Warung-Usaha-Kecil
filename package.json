@@ -1,0 +1,12 @@
+{
+  "name": "pos-terpadu-warung",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "POS responsif untuk warung dan usaha kecil — local demo PWA dengan skema backend Supabase.",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "test": "node --test"
+  }
+}
