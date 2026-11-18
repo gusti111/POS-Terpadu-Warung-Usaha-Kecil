@@ -36,6 +36,27 @@ A Supabase PostgreSQL schema, row-level security policies, and RPC drafts are in
 
 All of these workflows operate against local browser data in the current MVP.
 
+## Cashier and payment flow
+
+```mermaid
+flowchart TD
+    A["Create local store workspace"] --> B["Owner signs in"]
+    B --> C["Open cashier workspace"]
+    C --> D["Select products and quantities"]
+    D --> E["Create checkout"]
+    E --> F{"Payment method"}
+    F -->|Cash| G["Complete local sale"]
+    F -->|QRIS / transfer| H["Save as pending payment"]
+    H --> I["Owner checks payment"]
+    I --> J{"Payment verified?"}
+    J -->|No| K["Keep pending or mark failed"]
+    J -->|Yes| G
+    G --> L["Update local stock and transaction totals"]
+    L --> M["Review receipt, shift, and reports"]
+```
+
+All states in the current MVP are stored in the browser. Supabase is a schema and integration draft, not the active transaction backend.
+
 ## Technology
 
 - HTML5, CSS3, and Vanilla JavaScript ES modules.
