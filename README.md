@@ -1,163 +1,137 @@
-# POS Terpadu — Warung & Usaha Kecil
+<div align="center">
 
-A responsive web/PWA Point of Sale (POS) application designed for small shops and micro businesses. Built as a local demo MVP with browser-based data storage (`localStorage`) and a Supabase backend schema draft ready for production integration.
+# POS TERPADU
+### Point of Sale for Small Shops & Micro Businesses
 
-> **Current Status: Local Demo MVP.** The UI and operational flow run in the browser with data stored in `localStorage`. The Supabase backend is not yet connected. **Do not use this local mode as a production cashier system or to store sensitive financial/identity data.**
+**A responsive browser-based POS prototype with inventory, shifts, and operational reporting.**
 
-## Live Demo
+</div>
 
-Visit the deployed site: **[POS Terpadu on GitHub Pages](https://gusti111.github.io/POS-Terpadu-Warung-Usaha-Kecil/)**  
-*(Or run locally — see "Running the App" below.)*
+---
 
-## Features
+## Overview
 
-- **Workspace & Owner setup** — Create a shop workspace and Owner account without a default PIN.
-- **Local login** — Owner/Cashier accounts with PIN derived via PBKDF2 + salt using Web Crypto.
-- **Dashboard** — Net revenue, gross profit, expenses, low stock alerts, 7-day trend, and recent transactions.
-- **POS / Cashier** — SKU/name search, category filter, cart, quantity control, checkout (cash / QRIS / bank transfer).
-- **Pending payments** — QRIS/transfer can be saved as **Pending**. Pending does not add revenue or reduce stock. Owner can verify payment while the originating shift is still open.
-- **CRUD / Archive** — Products and categories with selling price, COH (cost of goods), minimum stock, and unique SKU.
-- **Stock adjustment** — Stock in/out with reason and mutation ledger.
-- **Transaction history** — Invoice details, receipt printing, CSV export, and void with reason.
-- **Shift management** — Open/close shift, opening cash, expected cash, actual cash, and variance.
-- **Expenses** — Cash/non-cash expenses, edit, and void with audit trail.
-- **Reports** — Today / 7-day / 30-day periods; revenue, COGS, gross profit, expenses, estimated operating profit, and payment mix.
-- **Employees** — Add, edit, activate/deactivate, and reset PIN for cashier accounts.
-- **Store profile** — Light/dark theme, JSON backup export, PWA shell cache.
-## Tech Stack
+POS Terpadu is a web/PWA project designed around common point-of-sale workflows for small retail businesses. The current MVP runs locally in the browser and stores its operational data in localStorage.
 
-- **HTML5, CSS3, JavaScript (ES Modules)** — No external npm dependencies; zero `node_modules` required.
-- **Service Worker (PWA)** — Shell caching for offline use.
-- **Web Crypto API** — PBKDF2 PIN derivation for local authentication.
-- **localStorage** — Client-side data persistence (demo mode).
-- **Supabase (draft)** — PostgreSQL schema, RLS, and RPC functions prepared in `supabase/migrations/001_pos_core.sql`.
+A Supabase PostgreSQL schema, row-level security policies, and RPC drafts are included as a future backend foundation, but the current frontend is **not connected to Supabase**.
 
-## Project Structure
+> **Important — Demo mode only**  
+> Do not use the current local-storage version as a production cashier system or to store sensitive financial, employee, or customer information. Browser storage can be cleared, edited, or accessed by the user.
 
-```
-pos-terpadu-app/
-├── index.html              # Entry point
-├── styles.css              # Modern Clean design system
-├── manifest.webmanifest    # PWA manifest
-├── sw.js                   # Service Worker (PWA shell cache)
-├── server.mjs              # Local dev server (Node.js)
-├── package.json            # Project metadata & scripts
-├── .gitignore              # Git ignore rules
-├── README.md               # This file
-│
-├── src/                    # Application source
-│   ├── main.js             # Screen rendering, event handlers, navigation, modals
-│   ├── domain.js           # Business rules & state transitions
-│   ├── store.js            # Local persistence, PIN hashing, seed data, backup
-│   ├── format.js           # Rupiah, dates, escaping, identifiers
-│   └── icons.js            # Inline SVG icon set
-│
-├── supabase/               # Backend schema (draft)
-│   ├── migrations/001_pos_core.sql
-│   └── README.md
-│
-├── tests/                  # Unit tests (Node.js built-in test runner)
-│   ├── domain.test.mjs
-│   └── store.test.mjs
-│
-└── docs/
-    ├── IMPLEMENTATION_NOTES.md
-    └── QA_CHECKLIST.md
-```
+## Features in the local MVP
 
-## Running the App
+- **Workspace setup** — create a shop workspace and initial owner profile.
+- **Local authentication demo** — owner and cashier access with PIN derivation using PBKDF2 and browser Web Crypto.
+- **Dashboard** — revenue, gross-profit estimates, expenses, low-stock alerts, weekly trends, and recent transactions.
+- **Cashier / POS** — search products by name or SKU, filter categories, manage cart quantities, and check out using cash, QRIS, or bank-transfer labels.
+- **Pending payments** — non-cash payments can remain pending until owner verification; pending transactions do not count as revenue or reduce stock.
+- **Product and category management** — create, edit, archive, and maintain prices, cost values, minimum stock, and SKU data.
+- **Stock operations** — record stock-in and stock-out adjustments with reasons.
+- **Transaction history** — invoice details, receipt printing, CSV export, and void operations with a reason.
+- **Shift management** — opening cash, expected closing cash, counted cash, and variance.
+- **Expense records** — cash and non-cash expenses with editing and void history.
+- **Reports** — daily, seven-day, and thirty-day performance summaries.
+- **Employee management** — local cashier profiles and PIN reset.
+- **Store settings** — theme options, JSON backup export, and PWA shell caching.
 
-### Option 1: Node.js (recommended)
+All of these workflows operate against local browser data in the current MVP.
 
-Requires Node.js 18+ (Node 20+ recommended). No external dependencies to install.
+## Technology
 
-```bash
-# 1. Open the project folder
-cd pos-terpadu-app
+- HTML5, CSS3, and Vanilla JavaScript ES modules.
+- Node.js built-in tooling for the local development server.
+- Service Worker and Web App Manifest for PWA shell support.
+- Web Crypto API for local PIN derivation.
+- localStorage for demo persistence.
+- Supabase SQL migration draft (not connected to the running frontend).
 
-# 2. Start the local server
-npm run dev
+The application does not require third-party npm runtime dependencies.
 
-# 3. Open in browser
-# http://localhost:4173
-```
+## Requirements
 
-### Option 2: Python (no Node.js)
+- Modern browser with Web Crypto API and Service Worker support.
+- Node.js 18+ recommended for the included development server, or Python 3 for an alternate local server.
+- HTTPS or localhost for browser APIs that require a secure context.
 
-```bash
-python -m http.server 4173
-# Then open http://localhost:4173
-```
+## Run locally
 
-> **Important:** Web Crypto API and the PWA Service Worker require `localhost` or HTTPS. Do not open `index.html` directly via `file://`.
-## First-Time Setup
+### Node.js
 
-1. Fill in shop name, Owner name, username, and a personal 4–6 digit PIN.
-2. Choose **Load sample data** to load catalog, simulated transactions, stock mutations, and example shifts.
-3. Log in using the Owner username and PIN you created.
-4. Go to **Employees** to create a Cashier account and PIN.
-5. Log out, then log in as Cashier to try the restricted views and shift flow.
+    git clone https://github.com/gusti111/POS-Terpadu-Warung-Usaha-Kecil.git
+    cd POS-Terpadu-Warung-Usaha-Kecil
+    npm run dev
 
-Sample data is fictional and local. It can be deleted via **Settings → Reset workspace demo**.
+Open http://localhost:4173.
 
-## User Roles (Demo Mode)
+### Python alternative
 
-| Role | Permissions |
-|------|-------------|
-| **Owner** | Dashboard, POS, all transactions, products, categories, inventory, all shifts, expenses, reports, employees, and settings. |
-| **Cashier** | POS, own transactions, own shifts, and own expenses (if Owner enables cashier expense permission). No access to products, inventory, reports, employees, or store settings. |
+    python -m http.server 4173
 
-> Menu protection in demo mode is UX/frontend only. In production, the same rules must be enforced by Supabase Auth + RLS + RPC, not just frontend navigation.
+Open http://localhost:4173.
 
-## Business Rules (Demo Mode)
+Do not open the page through file://; use localhost or HTTPS so the required browser APIs can operate correctly.
 
-- Only transactions with `sale.status = completed` and `payment.status = paid` count as revenue. Failed and voided transactions are excluded.
-- Payment method (`cash`, `qris`, `bank_transfer`) is separate from stock movement.
-- Cash/QRIS/bank transfer marked **Pending** do not add revenue or reduce stock. Pending must be verified or marked failed by the Owner before the originating shift is closed.
-- Selling price, COGS, SKU, and product name are snapshotted at transaction completion.
-- Stock cannot go negative; stock reduction/return is recorded as a mutation.
-- Completed sales cannot be edited or deleted. Corrections are made via void with reason and a reversing stock mutation.
-- Expected cash = opening cash + cash sales − cash expenses − cash refunds.
-- One local account can have only one active shift at a time.
+## First-time demo setup
 
-## Testing
+1. Create the local workspace and owner account from the initial setup screen.
+2. Optionally load the sample catalog and simulated transactions.
+3. Sign in using the owner credentials created in the browser.
+4. Add a cashier profile from the employee area to explore the cashier flow.
+5. Switch between owner and cashier accounts to inspect the role-specific interface.
 
-Run the built-in Node.js test suite:
+Sample records are fictional and are stored locally. Use the application's reset action to clear the demo workspace.
 
-```bash
-npm test
-```
+## Business rules in demo mode
 
-Tests cover core domain rules using Node's native test runner. They do not cover browser integration, Supabase, RLS, physical printers, or cross-device behavior. Use `docs/QA_CHECKLIST.md` for manual testing before pilot deployment.
+- Only completed and paid sales contribute to revenue.
+- Pending QRIS or bank-transfer transactions do not add revenue or reduce stock.
+- The sale records snapshot the item name, SKU, selling price, and cost at completion.
+- Stock cannot be reduced below zero through the domain rules.
+- Completed sales are corrected through a void action with a reason rather than direct editing.
+- Expected cash is calculated from opening cash, cash sales, cash expenses, and cash refunds.
+- A local account can have only one active shift at a time.
 
-## Design System
+These rules are implemented in the local demo domain and must be enforced again by a trusted backend before multi-user deployment.
 
-The app uses a **Modern Clean** design system with:
+## Supabase backend draft
 
-- **Palette** — Navy/Blue brand (`#2563eb`), with semantic success (emerald), warning (amber), and danger (rose) colors.
-- **Dual theme** — Light and dark mode via CSS variables.
-- **Typography** — Inter/system-ui font stack with a modular type scale.
-- **Components** — Cards, buttons, badges, modals, toasts, metric cards, product grid, cart panel, and sidebar navigation drawer.
-- **Responsive** — Breakpoints at 1024px, 768px, and 480px. Sidebar becomes an off-canvas drawer on mobile.
+The file supabase/migrations/001_pos_core.sql contains a PostgreSQL schema and draft authorization policies and RPC functions for operations such as owner setup, checkout, payment verification, sale voiding, stock adjustment, and shift management.
 
-## Backend — Supabase (Not Connected Yet)
+The frontend does not currently use Supabase Auth, PostgREST, or those RPC functions. The migration is a starting point for backend integration, not evidence of a live database.
 
-The file `supabase/migrations/001_pos_core.sql` contains a draft PostgreSQL schema with constraints, authorization helpers, RLS policies, and RPC functions for Owner setup, atomic checkout, pending payment verification, void, stock adjustment, and shifts.
+Before connecting a production backend:
 
-Before using the backend:
+1. Review the migration on a new development project.
+2. Test Row Level Security with separate owner and cashier identities and separate stores.
+3. Move sensitive operations into trusted RPCs or server-side functions.
+4. Test transaction rollback, concurrent stock updates, idempotency, and post-close void policy.
+5. Replace the local browser store with a Supabase-backed repository.
+6. Never expose the Supabase service-role key in browser code.
 
-1. Create a Supabase development project.
-2. Review and run the migration on an empty/staging database.
-3. Test Owner setup, dual-account/two-shop RLS, RPC rollback, idempotency, concurrent stock, and void.
-4. Implement the Auth/PostgREST/RPC adapter on the frontend and replace the local repository.
-5. Ensure each Cashier has their own Auth identity; do not run all Cashier queries through the Owner session.
+See supabase/README.md.
 
-**Never** store the `service_role` key in the browser. The browser may only use the anon/publishable key with tested RLS policies.
+## Verification
 
-## License
+Run the Node.js test suite:
 
-This project is provided as a demo/MVP for small business use. See the repository for details.
+    npm test
+
+Tests cover selected domain and store behaviors. They do not validate Supabase, RLS, browser integration, physical receipt printers, or cross-device operation.
+
+Use docs/QA_CHECKLIST.md for the manual validation plan.
+
+## Documentation
+
+- docs/ARCHITECTURE_AND_FLOWS.md — architecture and key user flows.
+- docs/IMPLEMENTATION_NOTES.md — implementation decisions and known details.
+- docs/QA_CHECKLIST.md — manual QA scenarios.
+- docs/RELEASE_NOTES.md — project change log.
+- supabase/README.md — backend migration and RPC notes.
+
+## Project status
+
+Local Demo MVP. The browser application provides a broad local POS experience, while persistent multi-user data, trusted authentication, backend transactions, and production-grade access control remain future integration work.
 
 ## Repository
 
-[https://github.com/gusti111/POS-Terpadu-Warung-Usaha-Kecil](https://github.com/gusti111/POS-Terpadu-Warung-Usaha-Kecil)
+[github.com/gusti111/POS-Terpadu-Warung-Usaha-Kecil](https://github.com/gusti111/POS-Terpadu-Warung-Usaha-Kecil)
